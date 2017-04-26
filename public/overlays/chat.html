@@ -26,6 +26,7 @@
       #messages {
         position: absolute;
         bottom:0;
+        width: 100%;
       }
 
       .message {
@@ -35,7 +36,7 @@
         border-bottom: 1px solid rgba(50,50,50,0.5);
         position: relative;
         left: 0px;
-        animation: fadeOut 2s ease-in 20s forwards;
+        animation: fadeIn 0.5s ease-in 0s forwards, fadeOut 2s ease-in 20s forwards;
       }
 
       .message:last-child {
@@ -45,6 +46,7 @@
       .username {
         font-weight: bold;
         font-variant: small-caps;
+        text-transform: lowercase;
         color: white;
         padding-left: 10px;
       }
@@ -56,13 +58,40 @@
         position: relative;
         top:-15px;
         padding-right: 10px;
+        display: none;
       }
 
       .text {
         padding: 5px;
         padding-left: 20px; padding-right: 20px;
         color:azure;
-        font-size: small;
+        font-size: large;
+      }
+
+      .chat-badge-mod {
+      	background-color: hsl(105, 89%, 36%);
+      	background-image: url(http://www.twitch.tv/images/xarth/badge_mod.svg);
+      }
+      .chat-badge-turbo {
+      	background-color: hsl(261, 43%, 45%);
+      	background-image: url(http://www.twitch.tv/images/xarth/badge_turbo.svg);
+      }
+      .chat-badge-broadcaster {
+      	background-color: hsl(0, 81%, 50%);
+      	background-image: url(http://www.twitch.tv/images/xarth/badge_broadcaster.svg);
+      }
+      .chat-badge-admin {
+      	background-color: hsl(40, 96%, 54%);
+      	background-image: url(http://www.twitch.tv/images/xarth/badge_admin.svg);
+      }
+      .chat-badge-staff {
+      	background-color: hsl(268, 55%, 13%);
+      	background-image: url(http://www.twitch.tv/images/xarth/badge_staff.svg);
+      }
+      .chat-badge-subscriber {
+      }
+      .chat-badge-bot {
+      	background-image: url(https://cdn.betterttv.net/tags/bot.png);
       }
 
       @keyframes moveIn {
@@ -74,12 +103,18 @@
           from {opacity: 1;}
           to {opacity: 0;}
       }
+
+      @keyframes fadeIn {
+          from {opacity: 0;}
+          to {opacity: 1;}
+      }
     </style>
   </head>
   <body>
     <div id="messages">
       <div class="message">
         <div class="username">Sogehige</div>
+        <div class="chat-badge-staff"></div>
         <div class="time">06-08-2017 16:18:27</div>
         <div class="text">Ahoj to jsem ja</div>
       </div>
@@ -94,6 +129,21 @@
 
   <script src="/dist/jquery/js/jquery.min.js"></script>
   <script>
+    var socket = io()
+
+    var defaultColors = ['rgb(255, 0, 0)','rgb(0, 0, 255)','rgb(0, 128, 0)','rgb(178, 34, 34)','rgb(255, 127, 80)','rgb(154, 205, 50)','rgb(255, 69, 0)','rgb(46, 139, 87)','rgb(218, 165, 32)','rgb(210, 105, 30)','rgb(95, 158, 160)','rgb(30, 144, 255)','rgb(255, 105, 180)','rgb(138, 43, 226)','rgb(0, 255, 127)'],
+
+
+    socket.on('chat.message', function (data) {
+      $('#messages').append('<div class="message">' +
+        '<div class="username">' + data.sender.display_name + '</div>' +
+        '<div class="time">06-08-2017 16:18:27</div>' +
+        '<div class="text">Ahoj to jsem ja</div>' +
+      '</div>')
+      https://help.twitch.tv/customer/portal/attachments/349943
+      var message = data.message
+      console.log(data)
+    })
     setInterval(function () {
       $('#messages').append('<div class="message">' +
         '<div class="username">Sogehige</div>' +

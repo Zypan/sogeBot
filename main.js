@@ -86,6 +86,7 @@ global.client.on('message', function (channel, sender, message, fromSelf) {
     if (sender['message-type'] !== 'whisper') {
       global.parser.timer.push({ 'id': sender.id, 'received': new Date().getTime() })
       global.log.chatIn(message, {username: sender.username})
+      global.panel.io.emit('chat.message', { sender: sender, message: message })
 
       if (!_.isUndefined(global.users.get(sender.username).id)) {
         global.users.isFollower(sender.username)
